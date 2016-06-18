@@ -10,6 +10,6 @@ import rx.Observable;
  * Created by akhil on 18/06/16.
  */
 public interface ApiCalls {
-    @GET("http://api.themoviedb.org/3/discover/movie")
+    @GET("discover/movie")
     Observable<ResponseBean> getMovies(@Query("api_key") String apiKey, @Query("sort_by") String sortBy);
 }
