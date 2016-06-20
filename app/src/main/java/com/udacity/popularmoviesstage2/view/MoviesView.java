@@ -7,8 +7,6 @@ import java.util.List;
 /**
  * Created by akhil on 18/06/16.
  */
-public class MoviesView {
-    public void updateMovies(List<Movie> movieList) {
-
-    }
+public interface MoviesView {
+    void updateMovies(List<Movie> movieList);
 }

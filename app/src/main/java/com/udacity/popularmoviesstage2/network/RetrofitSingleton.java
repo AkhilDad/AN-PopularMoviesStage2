@@ -17,7 +17,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -101,9 +100,6 @@ public class RetrofitSingleton {
             for (String format : DATE_FORMATS) {
                 try {
                     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-                    if (format.equalsIgnoreCase(DATE_FORMATS[3])) {
-                        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-                    }
                     return simpleDateFormat.parse(jsonElement.getAsString());
                 } catch (ParseException e) {
 

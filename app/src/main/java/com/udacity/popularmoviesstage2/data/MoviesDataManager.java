@@ -1,5 +1,8 @@
 package com.udacity.popularmoviesstage2.data;
 
+import android.content.res.Resources;
+
+import com.udacity.popularmoviesstage2.R;
 import com.udacity.popularmoviesstage2.model.Movie;
 import com.udacity.popularmoviesstage2.model.ResponseBean;
 import com.udacity.popularmoviesstage2.network.ApiCalls;
@@ -17,13 +20,16 @@ import rx.functions.Func1;
  */
 public class MoviesDataManager {
 
-    public MoviesDataManager() {
+    private Resources mResources;
+
+    public MoviesDataManager(Resources resources) {
+        mResources = resources;
     }
 
     public Observable<List<Movie>> getMovies(String sortBy) {
         final Retrofit retrofit = RetrofitSingleton.getRetrofit(RetrofitSingleton.MOVIE_DB_BASE_URL);
         final ApiCalls apiCalls = retrofit.create(ApiCalls.class);
-        return apiCalls.getMovies("", sortBy).flatMap(new Func1<ResponseBean, Observable<List<Movie>>>() {
+        return apiCalls.getMovies(mResources.getString(R.string.api_key), sortBy).flatMap(new Func1<ResponseBean, Observable<List<Movie>>>() {
 
             @Override
             public Observable<List<Movie>> call(final ResponseBean responseBean) {
@@ -32,6 +38,7 @@ public class MoviesDataManager {
                     public void call(Subscriber<? super List<Movie>> subscriber) {
                         final List<Movie> movies = responseBean.getMovies();
                         subscriber.onNext(movies);
+                        subscriber.onCompleted();
                     }
                 });
             }
