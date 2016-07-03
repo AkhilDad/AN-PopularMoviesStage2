@@ -3,6 +3,7 @@ package com.udacity.popularmoviesstage2.presenter;
 import com.udacity.popularmoviesstage2.data.MoviesDataManager;
 import com.udacity.popularmoviesstage2.model.Movie;
 import com.udacity.popularmoviesstage2.view.MoviesView;
+import com.udacity.popularmoviesstage2.viewmodel.MovieVM;
 
 import org.junit.After;
 import org.junit.Before;
@@ -47,7 +48,10 @@ public class MoviesPresenterTest {
             public Scheduler getMainThreadScheduler() {
                 return Schedulers.immediate();
             }
+
+
         });
+
         MockitoAnnotations.initMocks(this);
         mMovieList = new ArrayList<>();
         mTestSubscriber = new TestSubscriber<>();
@@ -58,11 +62,7 @@ public class MoviesPresenterTest {
 
     @Test
     public void tellPresenterToLoadMovies()  {
-
-//        testObs.subscribe(mTestSubscriber);
         mMoviesPresenter.loadPopularMovies();
-//        mTestSubscriber.assertNoErrors();
-//        mTestSubscriber.assertReceivedOnNext(Arrays.asList(mMovieList));
         verify(movieDataManager, times(1)).getMovies(eq(MoviesPresenter.POPULARITY));
     }
 
@@ -70,7 +70,11 @@ public class MoviesPresenterTest {
     @Test
     public void checkIfViewRenderIsCalled() throws Exception {
         mMoviesPresenter.loadPopularMovies();
-        verify(mView,times(1)).updateMovies(mMovieList);
+        List<MovieVM> movieVMs = new ArrayList<>(mMovieList.size());
+        for (Movie movie : mMovieList) {
+            movieVMs.add(new MovieVM(movie));
+        }
+        verify(mView,times(1)).updateMovies(movieVMs);
 
     }
 
