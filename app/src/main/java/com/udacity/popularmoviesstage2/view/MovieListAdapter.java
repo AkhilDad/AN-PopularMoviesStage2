@@ -8,6 +8,7 @@ import com.udacity.popularmoviesstage2.BR;
 import com.udacity.popularmoviesstage2.R;
 import com.udacity.popularmoviesstage2.viewmodel.MovieVM;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,10 +16,12 @@ import java.util.List;
  */
 public class MovieListAdapter extends RecyclerView.Adapter<MovieViewHolder>{
 
+    private static final int MOVIE_LIST_ITEM = 0;
+    private static final int ERROR_ITEM = 1;
     private List<MovieVM> mMovieList;
 
     public MovieListAdapter(List<MovieVM> movieList) {
-        mMovieList = movieList;
+        mMovieList = movieList != null ? movieList : new ArrayList<MovieVM>();
     }
 
     @Override
@@ -34,6 +37,32 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieViewHolder>{
 
     @Override
     public int getItemCount() {
-        return mMovieList != null ? mMovieList.size() : 0;
+        return mMovieList.size() > 0 ? mMovieList.size() : 0;
+    }
+
+    @Override public int getItemViewType(int position) {
+        if (mMovieList != null && mMovieList.size() > 0) {
+            return MOVIE_LIST_ITEM;    
+        } else {
+            return ERROR_ITEM;
+        }
+        
+    }
+
+    public void addMovies(List<MovieVM> movieList) {
+        int position = mMovieList.size() - 1;
+        mMovieList.addAll(movieList);
+        notifyItemRangeChanged(position, getItemCount());
+    }
+
+    public void updateMovies(List<MovieVM> movieList) {
+        clearAll();
+        mMovieList.addAll(movieList);
+        notifyDataSetChanged();
+    }
+
+    public void clearAll() {
+        mMovieList.clear();
+        notifyDataSetChanged();
     }
 }

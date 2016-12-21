@@ -1,6 +1,7 @@
 package com.udacity.popularmoviesstage2.network;
 
 import android.support.v4.util.ArrayMap;
+import android.util.Log;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -97,16 +98,19 @@ public class RetrofitSingleton {
         @Override
         public Date deserialize(JsonElement jsonElement, Type typeOF,
                                 JsonDeserializationContext context) throws JsonParseException {
-            for (String format : DATE_FORMATS) {
-                try {
-                    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-                    return simpleDateFormat.parse(jsonElement.getAsString());
-                } catch (ParseException e) {
+            final String jsonElementAsString = jsonElement.getAsString();
+            if (jsonElementAsString != null && jsonElementAsString.trim().length() > 0) {
+                for (String format : DATE_FORMATS) {
+                    try {
+                        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+                        return simpleDateFormat.parse(jsonElementAsString);
+                    } catch (ParseException e) {
 
+                    }
                 }
             }
-            throw new JsonParseException("Un parsable date: \"" + jsonElement.getAsString()
-                    + "\". Supported formats: " + Arrays.toString(DATE_FORMATS));
+            Log.e("Unparsable date","---->"+ jsonElementAsString);
+            return null;
         }
     }
 }

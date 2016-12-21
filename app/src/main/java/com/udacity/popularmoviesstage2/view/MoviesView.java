@@ -9,4 +9,10 @@ import java.util.List;
  */
 public interface MoviesView {
     void updateMovies(List<MovieVM> movieVMList);
+
+    void showError(String message);
+
+    void showProgress(boolean b);
+
+    void clearData();
 }
