@@ -1,7 +1,9 @@
 package com.udacity.popularmoviesstage2.viewmodel;
 
 import android.databinding.BindingAdapter;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.udacity.popularmoviesstage2.R;
@@ -44,6 +46,10 @@ public class MovieVM {
 
     public void setImageUrl(String imageUrl) {
         mImageUrl = imageUrl;
+    }
+
+    public void onViewClick(View view) {
+        Toast.makeText(view.getContext(), "On click", Toast.LENGTH_SHORT).show();
     }
 }
 

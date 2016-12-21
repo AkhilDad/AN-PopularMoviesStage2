@@ -12,7 +12,7 @@ public interface MoviesView {
 
     void showError(String message);
 
-    void showProgress(boolean b);
+    void updateViewState(int viewState);
 
     void clearData();
 }

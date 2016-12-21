@@ -3,6 +3,7 @@ package com.udacity.popularmoviesstage2.presenter;
 
 import com.udacity.popularmoviesstage2.data.MoviesDataManager;
 import com.udacity.popularmoviesstage2.model.Movie;
+import com.udacity.popularmoviesstage2.view.MoviesFragment;
 import com.udacity.popularmoviesstage2.view.MoviesView;
 import com.udacity.popularmoviesstage2.viewmodel.MovieVM;
 
@@ -33,7 +34,7 @@ public class MoviesPresenter {
     public void loadPopularMovies(@SortOrder.SortOrderDef String sortOrder) {
         reset();
         mView.clearData();
-        mView.showProgress(true);
+        mView.updateViewState(MoviesFragment.LOADING);
         mSubscription.add(mMoviesDataManager.getMovies(sortOrder)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,11 +47,13 @@ public class MoviesPresenter {
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
+                mView.updateViewState(MoviesFragment.ERROR);
                 mView.showError(e.getMessage());
             }
 
             @Override
             public void onNext(List<Movie> movies) {
+                mView.updateViewState(MoviesFragment.DATA_LOADED);
                 if (movies != null) {
                     List<MovieVM> movieVMs = new ArrayList<>(movies.size());
                     for (Movie movie : movies) {

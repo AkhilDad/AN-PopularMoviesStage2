@@ -20,12 +20,17 @@ import com.udacity.popularmoviesstage2.data.MoviesDataManager;
 import com.udacity.popularmoviesstage2.databinding.FragmentMoviesBinding;
 import com.udacity.popularmoviesstage2.presenter.MoviesPresenter;
 import com.udacity.popularmoviesstage2.presenter.SortOrder;
+import com.udacity.popularmoviesstage2.viewmodel.MovieFragmentVM;
 import com.udacity.popularmoviesstage2.viewmodel.MovieVM;
 
 import java.util.List;
 
 
 public class MoviesFragment extends Fragment implements MoviesView {
+
+    public static final int LOADING = 0;
+    public static final int ERROR = 1;
+    public static final int DATA_LOADED = 2;
 
     private static final String SORT_ORDER = "SORT_ORDER";
     private MoviesPresenter mMoviesPresenter;
@@ -37,6 +42,7 @@ public class MoviesFragment extends Fragment implements MoviesView {
     private String mSortOrder;
 
     private MoviesFragmentCallback mMoviesFragmentCallback;
+    private MovieFragmentVM mMovieFragmentVM;
 
     public MoviesFragment() {
         // Required empty public constructor
@@ -66,6 +72,7 @@ public class MoviesFragment extends Fragment implements MoviesView {
         if (getArguments() != null) {
 
         }
+        mMovieFragmentVM = new MovieFragmentVM();
         mMoviesPresenter = new MoviesPresenter(this, new MoviesDataManager(mContext.getResources()));
     }
 
@@ -76,6 +83,7 @@ public class MoviesFragment extends Fragment implements MoviesView {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
         mBinding.rvMovieList.setLayoutManager(new GridLayoutManager(mContext, getResources().getInteger(R.integer.no_of_elements_in_grid)));
         mMovieListAdapter = new MovieListAdapter(null);
+        mBinding.setMovieFragmentVM(mMovieFragmentVM);
         mBinding.rvMovieList.setAdapter(mMovieListAdapter);
         loadData(mSortOrder);
         return mBinding.getRoot();
@@ -166,12 +174,29 @@ public class MoviesFragment extends Fragment implements MoviesView {
 
     @Override
     public void showError(String message) {
+        mMovieFragmentVM.setErrorText(message);
         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void showProgress(boolean show) {
-
+    public void updateViewState(int viewState) {
+        switch (viewState) {
+            case LOADING :
+                mMovieFragmentVM.setErrorViewVisibility(View.GONE);
+                mMovieFragmentVM.setRecyclerViewVisibility(View.GONE);
+                mMovieFragmentVM.setProgressViewVisibility(View.VISIBLE);
+                break;
+            case ERROR:
+                mMovieFragmentVM.setErrorViewVisibility(View.VISIBLE);
+                mMovieFragmentVM.setRecyclerViewVisibility(View.GONE);
+                mMovieFragmentVM.setProgressViewVisibility(View.GONE);
+                break;
+            case DATA_LOADED:
+                mMovieFragmentVM.setErrorViewVisibility(View.GONE);
+                mMovieFragmentVM.setRecyclerViewVisibility(View.VISIBLE);
+                mMovieFragmentVM.setProgressViewVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override

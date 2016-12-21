@@ -14,4 +14,6 @@
     <string name="error_no_movies">No movies found</string>
     <string name="text_loading_message">Please wait while loading data</string>
     <string name="retry">Retry</string>
+    <string name="movie_reviews">Reviews</string>
+    <string name="movie_trailers">Trailers</string>
 </resources>
