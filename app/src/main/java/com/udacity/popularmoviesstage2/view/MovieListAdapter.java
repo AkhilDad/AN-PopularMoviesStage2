@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by akhil on 21/06/16.
  */
-public class MovieListAdapter extends RecyclerView.Adapter<MovieViewHolder>{
+public class MovieListAdapter extends RecyclerView.Adapter<DataBindingViewHolder>{
 
     private static final int MOVIE_LIST_ITEM = 0;
     private static final int ERROR_ITEM = 1;
@@ -25,12 +25,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieViewHolder>{
     }
 
     @Override
-    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MovieViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_grid, parent, false));
+    public DataBindingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new DataBindingViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_grid, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, int position) {
+    public void onBindViewHolder(DataBindingViewHolder holder, int position) {
         holder.getBinding().setVariable(BR.movieVM, mMovieList.get(position));;
         holder.getBinding().executePendingBindings();
     }
