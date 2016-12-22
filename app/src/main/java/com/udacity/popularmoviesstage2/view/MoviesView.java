@@ -1,5 +1,6 @@
 package com.udacity.popularmoviesstage2.view;
 
+import com.udacity.popularmoviesstage2.model.Movie;
 import com.udacity.popularmoviesstage2.viewmodel.MovieVM;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface MoviesView {
     void updateViewState(int viewState);
 
     void clearData();
+
+    void startMovieDetailsActivity(Movie movie);
 }

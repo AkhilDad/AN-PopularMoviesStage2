@@ -10,7 +10,7 @@ import android.view.View;
  * Created by akhil on 21/12/16.
  */
 
-public class MovieFragmentVM extends BaseObservable{
+public class MovieFragmentVM extends BaseObservable {
 
     private ObservableInt mRecyclerViewVisibility = new ObservableInt(View.VISIBLE);
     private ObservableInt mProgressViewVisibility = new ObservableInt(View.VISIBLE);
@@ -43,11 +43,12 @@ public class MovieFragmentVM extends BaseObservable{
         mErrorVM.setErrorText(errorText);
     }
 
+    @Bindable
     public ErrorVM getErrorVM() {
         return mErrorVM;
     }
 
-    @Bindable
+
     public void setErrorVM(ErrorVM errorVM) {
         mErrorVM = errorVM;
     }

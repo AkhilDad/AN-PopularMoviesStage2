@@ -24,7 +24,7 @@
             android:onClick="@{movieVM.onViewClick}"
             app:imageUrl="@{movieVM.imageUrl}" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_movie_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

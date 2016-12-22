@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.udacity.popularmoviesstage2.R;
 import com.udacity.popularmoviesstage2.data.MoviesDataManager;
 import com.udacity.popularmoviesstage2.databinding.FragmentMoviesBinding;
+import com.udacity.popularmoviesstage2.model.Movie;
 import com.udacity.popularmoviesstage2.presenter.MoviesPresenter;
 import com.udacity.popularmoviesstage2.presenter.SortOrder;
 import com.udacity.popularmoviesstage2.viewmodel.MovieFragmentVM;
@@ -37,7 +38,6 @@ public class MoviesFragment extends Fragment implements MoviesView {
     private Context mContext;
     private MovieListAdapter mMovieListAdapter;
     private FragmentMoviesBinding mBinding;
-    private RecyclerView mMoviesRV;
     @SortOrder.SortOrderDef
     private String mSortOrder;
 
@@ -55,7 +55,7 @@ public class MoviesFragment extends Fragment implements MoviesView {
         if (getActivity() instanceof MoviesFragmentCallback) {
             mMoviesFragmentCallback = (MoviesFragmentCallback) getActivity();
         } else {
-            throw new UnsupportedOperationException("Movies fragment callback in not implemented by attaching activity");
+            throw new RuntimeException("Movies fragment callback in not implemented by attaching activity");
         }
     }
 
@@ -202,6 +202,11 @@ public class MoviesFragment extends Fragment implements MoviesView {
     @Override
     public void clearData() {
         mMovieListAdapter.clearAll();
+    }
+
+    @Override
+    public void startMovieDetailsActivity(Movie movie) {
+        startActivity(MovieDetailActivity.getCallingIntent(mContext, movie));
     }
 
     public static MoviesFragment newInstance() {

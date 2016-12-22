@@ -14,22 +14,17 @@ import com.udacity.popularmoviesstage2.model.Movie;
  */
 public class MovieVM {
 
+    private Movie mMovie;
     private String mName;
 
     private String mImageUrl;
+    private ClickHandler mClickHandler;
 
-    public MovieVM(Movie movie) {
+    public MovieVM(Movie movie, ClickHandler clickHandler) {
         mName = movie.getOriginalTitle();
         mImageUrl = movie.getPosterPath() != null ? "http://image.tmdb.org/t/p/w342/" + movie.getPosterPath() : null;
-    }
-
-    @BindingAdapter({"bind:imageUrl"})
-    public static void loadImage(ImageView view, String imageUrl) {
-        Picasso.with(view.getContext())
-                .load(imageUrl)
-                .placeholder(R.drawable.progress_animation)
-                .error(R.drawable.no_image)
-                .into(view);
+        mMovie = movie;
+        mClickHandler = clickHandler;
     }
 
     public String getName() {
@@ -49,7 +44,7 @@ public class MovieVM {
     }
 
     public void onViewClick(View view) {
-        Toast.makeText(view.getContext(), "On click", Toast.LENGTH_SHORT).show();
+        mClickHandler.onMovieClicked(mMovie);
     }
 }
 

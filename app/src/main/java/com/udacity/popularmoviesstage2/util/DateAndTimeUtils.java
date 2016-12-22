@@ -13,7 +13,7 @@ public class DateAndTimeUtils {
     }
 
     public static String getDateString(Date date) {
-        if (date == null || date.toString().trim().length() == 0) {
+        if (date == null) {
             return "";
         }
         String format = "dd/MM/yyyy";
