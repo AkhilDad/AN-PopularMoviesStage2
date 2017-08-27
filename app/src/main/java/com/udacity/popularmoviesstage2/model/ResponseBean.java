@@ -7,13 +7,13 @@ import java.util.List;
 /**
  * Created by akhil on 18/06/16.
  */
-public class ResponseBean {
+public class ResponseBean<T> {
 
     @SerializedName("page")
     private int mPage;
 
     @SerializedName("results")
-    private List<Movie> mMovies;
+    private List<T> mResults;
 
     @SerializedName("total_results")
     private int mTotalResults;
@@ -29,12 +29,12 @@ public class ResponseBean {
         mPage = page;
     }
 
-    public List<Movie> getMovies() {
-        return mMovies;
+    public List<T> getResults() {
+        return mResults;
     }
 
-    public void setMovies(List<Movie> movies) {
-        mMovies = movies;
+    public void setResults(List<T> results) {
+        mResults = results;
     }
 
     public int getTotalResults() {

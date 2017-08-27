@@ -57,19 +57,19 @@ public class MoviesPresenterTest {
         mTestSubscriber = new TestSubscriber<>();
         mMoviesPresenter = new MoviesPresenter(mView, movieDataManager);
         Observable<List<Movie>> testObs = Observable.just(mMovieList);
-        when(movieDataManager.getMovies(MoviesPresenter.POPULARITY)).thenReturn(testObs);
+        when(movieDataManager.getMovies(SortOrder.POPULARITY)).thenReturn(testObs);
     }
 
     @Test
     public void tellPresenterToLoadMovies()  {
-        mMoviesPresenter.loadPopularMovies();
-        verify(movieDataManager, times(1)).getMovies(eq(MoviesPresenter.POPULARITY));
+        mMoviesPresenter.loadPopularMovies(SortOrder.POPULARITY);
+        verify(movieDataManager, times(1)).getMovies(eq(SortOrder.POPULARITY));
     }
 
 
     @Test
     public void checkIfViewRenderIsCalled() throws Exception {
-        mMoviesPresenter.loadPopularMovies();
+        mMoviesPresenter.loadPopularMovies(SortOrder.POPULARITY);
         List<MovieVM> movieVMs = new ArrayList<>(mMovieList.size());
         for (Movie movie : mMovieList) {
             movieVMs.add(new MovieVM(movie));

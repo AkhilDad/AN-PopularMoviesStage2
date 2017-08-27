@@ -5,7 +5,7 @@ import com.udacity.popularmoviesstage2.data.MoviesDataManager;
 import com.udacity.popularmoviesstage2.model.Movie;
 import com.udacity.popularmoviesstage2.view.MoviesFragment;
 import com.udacity.popularmoviesstage2.view.MoviesView;
-import com.udacity.popularmoviesstage2.viewmodel.ClickHandler;
+import com.udacity.popularmoviesstage2.viewmodel.MovieClickHandler;
 import com.udacity.popularmoviesstage2.viewmodel.MovieVM;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by akhil on 18/06/16.
  */
-public class MoviesPresenter implements ClickHandler {
+public class MoviesPresenter implements MovieClickHandler {
 
     private final MoviesView mView;
     private final MoviesDataManager mMoviesDataManager;

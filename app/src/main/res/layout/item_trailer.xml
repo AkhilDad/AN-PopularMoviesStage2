@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.udacity.popularmoviesstage2.viewmodel.MovieTrailerVM" />
+
+        <variable
+            name="trailerVM"
+            type="MovieTrailerVM" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_trailer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="3"
+            android:text="@{trailerVM.trailerName}" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:onClick="@{trailerVM.onViewTrailer}"
+            android:text="@string/string_view_trailer" />
+    </LinearLayout>
+
+</layout>

@@ -1,12 +1,7 @@
 package com.udacity.popularmoviesstage2.viewmodel;
 
-import android.databinding.BindingAdapter;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-import com.udacity.popularmoviesstage2.R;
 import com.udacity.popularmoviesstage2.model.Movie;
 
 /**
@@ -18,9 +13,9 @@ public class MovieVM {
     private String mName;
 
     private String mImageUrl;
-    private ClickHandler mClickHandler;
+    private MovieClickHandler mClickHandler;
 
-    public MovieVM(Movie movie, ClickHandler clickHandler) {
+    public MovieVM(Movie movie, MovieClickHandler clickHandler) {
         mName = movie.getOriginalTitle();
         mImageUrl = movie.getPosterPath() != null ? "http://image.tmdb.org/t/p/w342/" + movie.getPosterPath() : null;
         mMovie = movie;

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,12 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.udacity.popularmoviesstage2.BR;
 import com.udacity.popularmoviesstage2.R;
 import com.udacity.popularmoviesstage2.data.MoviesDataManager;
 import com.udacity.popularmoviesstage2.databinding.FragmentMoviesBinding;
 import com.udacity.popularmoviesstage2.model.Movie;
 import com.udacity.popularmoviesstage2.presenter.MoviesPresenter;
 import com.udacity.popularmoviesstage2.presenter.SortOrder;
+import com.udacity.popularmoviesstage2.viewmodel.ErrorClickHandler;
 import com.udacity.popularmoviesstage2.viewmodel.MovieFragmentVM;
 import com.udacity.popularmoviesstage2.viewmodel.MovieVM;
 
@@ -36,7 +37,7 @@ public class MoviesFragment extends Fragment implements MoviesView {
     private static final String SORT_ORDER = "SORT_ORDER";
     private MoviesPresenter mMoviesPresenter;
     private Context mContext;
-    private MovieListAdapter mMovieListAdapter;
+    private RecyclerBindingAdapter<MovieVM> mRecyclerBindingAdapter;
     private FragmentMoviesBinding mBinding;
     @SortOrder.SortOrderDef
     private String mSortOrder;
@@ -72,7 +73,12 @@ public class MoviesFragment extends Fragment implements MoviesView {
         if (getArguments() != null) {
 
         }
-        mMovieFragmentVM = new MovieFragmentVM();
+        mMovieFragmentVM = new MovieFragmentVM(new ErrorClickHandler() {
+            @Override
+            public void onRetry(View view) {
+                mMoviesPresenter.loadPopularMovies(mSortOrder);
+            }
+        });
         mMoviesPresenter = new MoviesPresenter(this, new MoviesDataManager(mContext.getResources()));
     }
 
@@ -82,9 +88,9 @@ public class MoviesFragment extends Fragment implements MoviesView {
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false);
         mBinding.rvMovieList.setLayoutManager(new GridLayoutManager(mContext, getResources().getInteger(R.integer.no_of_elements_in_grid)));
-        mMovieListAdapter = new MovieListAdapter(null);
+        mRecyclerBindingAdapter = new RecyclerBindingAdapter(null, R.layout.item_movie_grid, BR.movieVM);
         mBinding.setMovieFragmentVM(mMovieFragmentVM);
-        mBinding.rvMovieList.setAdapter(mMovieListAdapter);
+        mBinding.rvMovieList.setAdapter(mRecyclerBindingAdapter);
         loadData(mSortOrder);
         return mBinding.getRoot();
     }
@@ -169,7 +175,7 @@ public class MoviesFragment extends Fragment implements MoviesView {
 
     @Override
     public void updateMovies(List<MovieVM> movieVMList) {
-        mMovieListAdapter.updateMovies(movieVMList);
+        mRecyclerBindingAdapter.updateData(movieVMList);
     }
 
     @Override
@@ -201,7 +207,7 @@ public class MoviesFragment extends Fragment implements MoviesView {
 
     @Override
     public void clearData() {
-        mMovieListAdapter.clearAll();
+        mRecyclerBindingAdapter.clearAll();
     }
 
     @Override

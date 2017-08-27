@@ -29,14 +29,14 @@ public class MoviesDataManager {
     public Observable<List<Movie>> getMovies(String sortBy) {
         final Retrofit retrofit = RetrofitSingleton.getRetrofit(RetrofitSingleton.MOVIE_DB_BASE_URL);
         final ApiCalls apiCalls = retrofit.create(ApiCalls.class);
-        return apiCalls.getMovies(mResources.getString(R.string.api_key), sortBy).flatMap(new Func1<ResponseBean, Observable<List<Movie>>>() {
+        return apiCalls.getMovies(mResources.getString(R.string.api_key), sortBy).flatMap(new Func1<ResponseBean<Movie>, Observable<List<Movie>>>() {
 
             @Override
-            public Observable<List<Movie>> call(final ResponseBean responseBean) {
+            public Observable<List<Movie>> call(final ResponseBean<Movie> responseBean) {
                return Observable.create(new Observable.OnSubscribe<List<Movie>>() {
                     @Override
                     public void call(Subscriber<? super List<Movie>> subscriber) {
-                        final List<Movie> movies = responseBean.getMovies();
+                        final List<Movie> movies = responseBean.getResults();
                         subscriber.onNext(movies);
                         subscriber.onCompleted();
                     }

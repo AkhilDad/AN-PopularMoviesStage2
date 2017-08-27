@@ -2,7 +2,13 @@ package com.udacity.popularmoviesstage2.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
+import android.util.Log;
+import android.view.View;
 
+import com.google.common.primitives.Booleans;
+import com.udacity.popularmoviesstage2.BR;
 import com.udacity.popularmoviesstage2.model.Movie;
 import com.udacity.popularmoviesstage2.util.DateAndTimeUtils;
 
@@ -17,17 +23,25 @@ public class MovieDetailVM extends BaseObservable {
     private String mImageUrl;
 
     private String mReleaseDate;
-
+D
     private String mOverView;
 
     private Float mRating;
 
-    public MovieDetailVM(Movie movie) {
+    public ObservableBoolean mIsFavourite;
+
+    private FavouriteClickHandler mFavouriteClickHandler;
+    private Movie mMovie;
+
+    public MovieDetailVM(Movie movie, FavouriteClickHandler favouriteClickHandler) {
+        mMovie = movie;
         mName = movie.getOriginalTitle();
         mImageUrl = movie.getPosterPath() != null ? "http://image.tmdb.org/t/p/w342/" + movie.getPosterPath() : null;
         mOverView = movie.getOverview() != null ? movie.getOverview() : "";
         mRating = movie.getVoteAverage();
         mReleaseDate = DateAndTimeUtils.getDateString(movie.getReleaseDate());
+        mFavouriteClickHandler = favouriteClickHandler;
+        mIsFavourite = new ObservableBoolean(false);
     }
 
 
@@ -73,5 +87,20 @@ public class MovieDetailVM extends BaseObservable {
 
     public void setRating(Float rating) {
         mRating = rating;
+    }
+
+    @Bindable
+    public boolean isFavourite() {
+        return mIsFavourite.get();
+    }
+
+    public void setFavourite(boolean favourite) {
+        mIsFavourite.set(favourite);
+    }
+
+    public void onFavourite(View view) {
+        setFavourite(!isFavourite());
+        mFavouriteClickHandler.onFavourite(mMovie, isFavourite());
+        Log.e("On favourite clicked","favourite");
     }
 }

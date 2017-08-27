@@ -16,4 +16,5 @@
     <string name="retry">Retry</string>
     <string name="movie_reviews">Reviews</string>
     <string name="movie_trailers">Trailers</string>
+    <string name="string_view_trailer">View Trailer</string>
 </resources>

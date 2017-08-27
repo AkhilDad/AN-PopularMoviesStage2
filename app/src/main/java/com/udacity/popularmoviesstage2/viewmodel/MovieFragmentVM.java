@@ -5,6 +5,8 @@ import android.databinding.Bindable;
 import android.databinding.ObservableInt;
 import android.view.View;
 
+import static android.os.Build.VERSION_CODES.M;
+
 
 /**
  * Created by akhil on 21/12/16.
@@ -14,7 +16,11 @@ public class MovieFragmentVM extends BaseObservable {
 
     private ObservableInt mRecyclerViewVisibility = new ObservableInt(View.VISIBLE);
     private ObservableInt mProgressViewVisibility = new ObservableInt(View.VISIBLE);
-    private ErrorVM mErrorVM = new ErrorVM();
+    private ErrorVM mErrorVM;
+
+    public MovieFragmentVM(ErrorClickHandler errorClickHandler) {
+        mErrorVM = new ErrorVM(errorClickHandler);
+    }
 
     @Bindable
     public ObservableInt getRecyclerViewVisibility() {

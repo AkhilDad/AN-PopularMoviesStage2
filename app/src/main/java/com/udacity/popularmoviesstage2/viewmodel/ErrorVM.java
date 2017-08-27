@@ -13,6 +13,11 @@ public class ErrorVM extends BaseObservable{
 
     private String mErrorText = "Some error";
     private ObservableInt mErrorViewVisibility = new ObservableInt(View.GONE);
+    private ErrorClickHandler mErrorClickHandler;
+
+    public ErrorVM(ErrorClickHandler errorClickHandler) {
+        mErrorClickHandler = errorClickHandler;
+    }
 
     public void setErrorText(String errorText) {
         mErrorText = errorText;
@@ -32,4 +37,7 @@ public class ErrorVM extends BaseObservable{
         mErrorViewVisibility.set(errorViewVisibility);
     }
 
+    public void onRetry(View view) {
+        mErrorClickHandler.onRetry(view);
+    }
 }
